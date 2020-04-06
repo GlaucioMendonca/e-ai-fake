@@ -1,34 +1,26 @@
 import React from 'react'
-import { View, Share, StyleSheet, Image, BackHandler } from 'react-native'
-import { Button, Card, Text } from 'react-native-elements';
+import { View, Text,StyleSheet, Image, BackHandler } from 'react-native'
+import { Button, Card, Divider } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function resultScreen({ route, navigation }) {
   let isFake = false
   const fake_image = require('../assets/images/is_fake.png')
   const true_image = require('../assets/images/not_is_fake.png')
-  console.log(route.params)
-  const onShare = async () => {
-    try {
-      const result = await Share.share({
-        message: route.params
-      });
-    } catch (error) {
-      alert(error.message);
-    }
-  }
 
   const handlerCloseApp = () => {
     BackHandler.exitApp()
   }
 
+  const cardTitle = <Text style={styles.title}> E aí <Text style = {styles.bold}>Fake!</Text></Text>
+
   return (
     <View style={ styles.container }>
       <Card 
-        title='E aí Fake!' 
-        titleStyle={styles.divider} 
+        title={cardTitle} 
         containerStyle={styles.cardStyle}
       >
+        <Divider style={{ backgroundColor: '#000', marginTop: 20 }} />
         <View style={ styles.responseContent }>
           <Image 
             source = { isFake ? true_image : fake_image }
@@ -52,15 +44,7 @@ export default function resultScreen({ route, navigation }) {
 
           <Button
             buttonStyle={ isFake == true ? styles.buttonTrue : styles.buttonFalse }
-            // icon={
-            //   <Icon
-            //     name="share-alt"
-            //     size={20}
-            //     color="white"
-            //     style={ styles.icon }
-            //   />
-            // }
-            title="Close"
+            title="CLOSE"
             titleStyle={ styles.buttonTitle }
             onPress = { handlerCloseApp }
           />
@@ -76,6 +60,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     backgroundColor: '#677FFF',
   },
+  title: {
+    fontSize: 40,
+    textAlign: 'center',
+    fontFamily: 'Poppins'
+  },
+  bold: {
+    fontFamily: 'Poppins,sans-serif',
+    fontStyle: 'normal',
+    fontWeight: 'bold',
+  },
   responseContent: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -85,7 +79,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   cardStyle: {
-    height:'80%',    
+    width: '91%',
     borderRadius: 10,
   },
   imageStyle: {
@@ -94,25 +88,28 @@ const styles = StyleSheet.create({
     height: 200,
     resizeMode: "contain"
   },
-  info: {},
+  info: {
+    
+  },
   infoHeaderLine: {
-    fontSize: 20,
+    fontSize: 30,
     textAlign: 'center',
   },
   infoText: {
     textAlign: 'center',
-    fontSize: 17
+    fontSize: 20,
+    marginTop: 10,
   },
   buttonTrue: {
     marginTop: 30,
-    width: 250, 
+    width: '90%', 
     height: 50,
     borderRadius: 10,
     backgroundColor: '#3ACC6C'
   },
   buttonFalse: {
-    marginTop: 30,
-    width: 250, 
+    marginTop: 20,
+    width: 300,
     height: 50,
     borderRadius: 10,
     backgroundColor: '#F50057'

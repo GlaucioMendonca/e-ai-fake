@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { View, StyleSheet } from 'react-native'
-import { Input, Button, Text, Card } from 'react-native-elements';
+import { Input, Button, Text, Card, Divider } from 'react-native-elements';
 
 import api from '../services'
 
@@ -16,14 +16,15 @@ export default function HomeScreen({ navigation }) {
     navigation.navigate('resultScreen', response.data.avatar_url)
     
   }
-
+  const cardTitle = <Text style={styles.title}> E aí <Text style = {styles.bold}>Fake!</Text></Text>
   return (
     <View style={ styles.container }>
       <Card 
-        title='E aí Fake!' 
+        title={cardTitle} 
         titleStyle={styles.divider} 
         containerStyle={styles.cardStyle}
       >
+        <Divider style={{ backgroundColor: '#000', marginTop: 20 }} />
         
         <Input 
           placeholder='Check notice...'
@@ -45,8 +46,10 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  logo: {
-    textAlign: 'center'
+  title: {
+    fontSize: 40,
+    textAlign: 'center',
+
   },
   container: {
     flex: 1,
@@ -54,17 +57,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#b3d9ff',
   },
   divider: {
-    fontSize: 30,
-    fontWeight: "bold"
   },
   cardStyle: {
     height:'80%',    
     borderRadius: 10,
   },
   input: {
-    marginTop: 30
+    marginTop: 50
   },
   button: {
-    marginTop: 30
+    marginTop: 50
+  },
+  bold: {
+    fontWeight: 'bold'
   }
 })
