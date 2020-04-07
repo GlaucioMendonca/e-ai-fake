@@ -10,10 +10,15 @@ export default function HomeScreen({ navigation }) {
 
   async function handleSubmit() {
     setLoad(true)
-    response = await api.get(`/users/${value}`)
-   
-    setLoad(false)
-    navigation.navigate('resultScreen', response.data.avatar_url)
+    let response = null
+    try {
+      response = await api.post('/verify', { url: `${value}` })
+      console.log(response.data)
+      navigation.navigate('resultScreen', response.data)
+      setLoad(false)
+    } catch (error) {
+      setLoad(false)
+    }
     
   }
   const cardTitle = <Text style={styles.title}> E aí <Text style = {styles.bold}>Fake!</Text></Text>
@@ -54,7 +59,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-around",
-    backgroundColor: '#b3d9ff',
+    backgroundColor: '#677FFF',
   },
   divider: {
   },

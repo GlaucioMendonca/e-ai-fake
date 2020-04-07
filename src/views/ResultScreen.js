@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text,StyleSheet, Image, BackHandler } from 'react-native'
 import { Button, Card, Divider } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function resultScreen({ route, navigation }) {
-  let isFake = false
+  const [isTrue, setIsTrue] = useState(false)
+  const [ rate, setRate] = useState('')
   const fake_image = require('../assets/images/is_fake.png')
   const true_image = require('../assets/images/not_is_fake.png')
+
+  useEffect( () => {
+    const isTrue = route.params.message.includes('TRUE')
+    setIsTrue(isTrue)
+    setRate(route.params.rate)
+    console.log('is FAKE?',isTrue)
+  }, [])
 
   const handlerCloseApp = () => {
     BackHandler.exitApp()
@@ -23,27 +30,27 @@ export default function resultScreen({ route, navigation }) {
         <Divider style={{ backgroundColor: '#000', marginTop: 20 }} />
         <View style={ styles.responseContent }>
           <Image 
-            source = { isFake ? true_image : fake_image }
+            source = { isTrue ? true_image : fake_image }
             style= { styles.imageStyle }
           />
 
           <View style={ styles.info } >
             <View>     
               <Text style={ styles.infoHeaderLine }>This news is
-                <Text style={ isFake == true ? styles.true : styles.false }> FAKE</Text>!
+                <Text style={ isTrue == true ? styles.true : styles.false }> 
+                  {isTrue == true ? 'TRUE' : 'FAKE'}
+                </Text>!
               </Text>
             </View>
 
             <Text style={ styles.infoText } >
-              Veracity rate: <Text style={{ fontWeight: 'bold' }}> 97.53% </Text>
-              {"\n"}
-              Response accuracy: <Text style={{ fontWeight: 'bold' }}> 97.53% </Text>
+              Veracity rate: <Text style={{ fontWeight: 'bold' }}> {rate}% </Text>
             </Text>
 
           </View>
 
           <Button
-            buttonStyle={ isFake == true ? styles.buttonTrue : styles.buttonFalse }
+            buttonStyle={ isTrue == true ? styles.buttonTrue : styles.buttonFalse }
             title="CLOSE"
             titleStyle={ styles.buttonTitle }
             onPress = { handlerCloseApp }
@@ -101,8 +108,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   buttonTrue: {
-    marginTop: 30,
-    width: '90%', 
+    marginTop: 20,
+    width: 300, 
     height: 50,
     borderRadius: 10,
     backgroundColor: '#3ACC6C'
@@ -113,9 +120,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     backgroundColor: '#F50057'
-  },
-  icon: {
-    marginRight: 10,
   },
   buttonTitle: {
     fontSize: 20,
